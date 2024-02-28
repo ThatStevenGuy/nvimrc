@@ -27,7 +27,8 @@ local pluginConfigs = {
     'copilot',
     'gitsigns',
     'trouble',
-    'luasnip'
+    'luasnip',
+    'vim-illuminate'
 }
 
 require("lazy").setup({
@@ -58,6 +59,7 @@ require("lazy").setup({
 
     -- Visuals
     'mhinz/vim-startify', -- Start screen. Also lists sessions which is particularly helpful with vim-obsession.
+    'RRethy/vim-illuminate', -- Highlights words under the cursor
     { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }, -- Adds indentation guides
     { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true, opts = {} }, -- Retro theme
     {
@@ -94,6 +96,7 @@ require("lazy").setup({
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
+            'hrsh7th/cmp-nvim-lsp-signature-help',
 
             -- Snippets
             "L3MON4D3/LuaSnip",

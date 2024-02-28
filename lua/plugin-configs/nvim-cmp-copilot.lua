@@ -16,13 +16,10 @@ local function get_word_before_cursor()
         return nil
     end
 
+    -- Find the first word before the cursor. We'll consider alphanumeric characters and underscores as part of a word,
+    -- but not punctuation or whitespace.
     local line = vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
-    local char_before_cursor = line:sub(col, col)
-    if char_before_cursor == "."  then
-        return nil
-    end
-
-    return line:match("(%w+)$") -- Capture alphanumerics at the end of the string
+    return line:match("([a-zA-Z0-9_]*)$")
 end
 
 function invalidate_suggested_word()
@@ -39,14 +36,9 @@ function invalidate_suggested_word()
         return
     end
 
-    local word_part_after, _ = suggested_text:match("^(%w+)")  -- ignores leading non-alphanumerics (i.e. the period)
-    if word_part_after == nil  then
-        set_suggested_word(nil)
-        return
-    end
-
-    local word_part_before = get_word_before_cursor()
-    set_suggested_word(word_part_before and word_part_before .. word_part_after or word_part_after)
+    local word_part_after, _ = suggested_text:match("([a-zA-Z0-9_]*)") or ""
+    local word_part_before = get_word_before_cursor() or ""
+    set_suggested_word(word_part_before .. word_part_after)
 end
 
 function compare_copilot_suggestion(entry1, entry2)

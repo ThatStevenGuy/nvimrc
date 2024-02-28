@@ -1,14 +1,23 @@
+-- Resources:
 -- https://github.com/hrsh7th/nvim-cmp?tab=readme-ov-file#setup
+-- https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#luasnip
 
-local cmp = require('cmp')
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+
+-- Prepend the Copilot comparator to the default comparators
+local default_config = require("cmp.config.default")()
+local comparators = default_config.sorting.comparators
+table.insert(comparators, 1, require("plugin-configs/nvim-cmp-copilot"))
+
 cmp.setup({
+    sorting = {
+        priority_weight = 2,
+        comparators = comparators,
+    },
     snippet = {
-        -- REQUIRED - you must specify a snippet engine
         expand = function(args)
-            -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-            -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-            -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+            require('luasnip').lsp_expand(args.body)
         end,
     },
     window = {
@@ -21,13 +30,29 @@ cmp.setup({
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.confirm({ select = true })
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
     }),
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        -- { name = 'vsnip' }, -- For vsnip users.
-        { name = 'luasnip' }, -- For luasnip users.
-        -- { name = 'ultisnips' }, -- For ultisnips users.
-        -- { name = 'snippy' }, -- For snippy users.
+        { name = 'luasnip' },
+        { name = 'nvim_lsp_signature_help' }
     }, {
         { name = 'buffer' },
     })
@@ -60,5 +85,4 @@ cmp.setup.cmdline(':', {
     })
 })
 
--- Set up lspconfig.
 require('cmp_nvim_lsp').default_capabilities()

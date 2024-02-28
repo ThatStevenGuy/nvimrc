@@ -14,6 +14,7 @@ o.splitright = true -- Open new splits to the right of the current one
 o.splitbelow = true -- Open new splits below the current one
 o.fixeol = false -- Don't add an EOL at the end of files to stay in line with VS Code and IntelliJ
 o.cursorline = true -- Highlight the current line
+o.showmode = false -- Don't show the mode in the command line (lualine.nvim already shows it)
 
 -- Configure scrolling
 o.scrolloff = 8 -- Keep 8 lines above and below the cursor

@@ -28,7 +28,8 @@ local pluginConfigs = {
     'gitsigns',
     'trouble',
     'luasnip',
-    'vim-illuminate'
+    'vim-illuminate',
+    'oil-nvim'
 }
 
 require("lazy").setup({
@@ -81,6 +82,11 @@ require("lazy").setup({
     'nvim-tree/nvim-tree.lua', -- File explorer
     'nvim-tree/nvim-web-devicons', -- Add dev icons (language icons and more). Nice for nvim-tree and Airline.
     'tpope/vim-obsession', -- Easier session management
+    {
+      'stevearc/oil.nvim',
+      opts = {},
+      dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
 
     -- LSP support
     {

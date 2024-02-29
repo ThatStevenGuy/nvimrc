@@ -102,7 +102,7 @@ require("lazy").setup({
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
-            'hrsh7th/cmp-nvim-lsp-signature-help',
+            -- 'hrsh7th/cmp-nvim-lsp-signature-help',
 
             -- Snippets
             "L3MON4D3/LuaSnip",
@@ -110,6 +110,12 @@ require("lazy").setup({
             "rafamadriz/friendly-snippets"
         }
     },
+    {
+        "ray-x/lsp_signature.nvim",
+        event = "VeryLazy",
+        opts = { },
+        config = function(_, opts) require'lsp_signature'.setup(opts) end
+    }
 })
 
 -- Load plugin configs

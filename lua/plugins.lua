@@ -99,7 +99,7 @@ require("lazy").setup({
         dependencies = {
             'neovim/nvim-lspconfig',
             'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-buffer',
+            -- 'hrsh7th/cmp-buffer', -- Suggests words from the current buffer. Annoying when typing comments or variable names.
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
             -- 'hrsh7th/cmp-nvim-lsp-signature-help',
@@ -107,7 +107,7 @@ require("lazy").setup({
             -- Snippets
             "L3MON4D3/LuaSnip",
             'saadparwaiz1/cmp_luasnip',
-            "rafamadriz/friendly-snippets"
+            -- "rafamadriz/friendly-snippets" -- Not really using snippets much. They just get in the way of autocompletion.
         }
     },
     {

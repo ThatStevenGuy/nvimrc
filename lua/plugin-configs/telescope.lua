@@ -31,7 +31,8 @@ require("telescope").setup {
     },
     pickers = {
         find_files = {
-			path_display = filenameFirst,
+            hidden = true,
+            path_display = filenameFirst,
 		},
         lsp_references = {
             path_display = { "tail" }, -- Show filenames only

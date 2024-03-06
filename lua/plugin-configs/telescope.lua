@@ -35,6 +35,12 @@ require("telescope").setup {
 		},
         lsp_references = {
             path_display = { "tail" }, -- Show filenames only
+        },
+        buffers = {
+            mappings = {
+                i = { ["<c-d>"] = "delete_buffer" },
+                n = { ["<c-d>"] = "delete_buffer" }
+            }
         }
     },
     extensions = {
@@ -60,8 +66,9 @@ keyset('n', '<leader>fc', builtin.commands, {})
 keyset('n', '<leader>gs', builtin.git_status, {})
 keyset('n', '<leader>gb', builtin.git_branches, {})
 keyset('n', '<leader>gh', builtin.git_commits, {})
-keyset('n', '<leader>gbh', builtin.git_bcommits, {})
-keyset('n', '<leader>gd', ":Gdiffsplit!<Cr>", {}) -- Not telescope, but fits here
+keyset('n', '<leader>gd', ":DiffviewOpen<Cr>", {}) -- Not telescope, but fits here
+keyset('n', '<leader>gbd', ":Gdiffsplit!<Cr>", {})
+keyset('n', '<leader>gbh', builtin.git_bcommits, {}) -- Alternatively, ":DiffviewFileHistory<CR>"
 
 -- LSP keymaps
 keyset('n', '<leader>fs', builtin.lsp_workspace_symbols, {})
@@ -88,5 +95,6 @@ wk.register({
     b = "Branches",
     h = "History",
     b = "Buffer",
+    bd = "Diff",
     bh = "History"
 }, { prefix = "<leader>g" })

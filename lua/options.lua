@@ -40,6 +40,9 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 })
 
+-- Configure Git
+o.diffopt = o.diffopt .. ",vertical,context:1000000" -- Open diffs vertically and show a large context (disables folds)
+
 -- Highlighted yanking
 vim.cmd[[
     augroup highlight_yank

@@ -7,8 +7,6 @@ keyset("i", "<S-Tab>", "<C-d>")
 -- Switch buffers & tabs more easily
 keyset("n", "[t", ":tabprevious<Cr>", silentOpt)
 keyset("n", "]t", ":tabnext<Cr>", silentOpt)
-keyset("n", "<C-h>", ":bprevious<Cr>", silentOpt)
-keyset("n", "<C-l>", ":bnext<Cr>", silentOpt)
 
 -- Buffer close bindings (via vim-bbye)
 keyset("n", "<leader>qq", ":Bwipeout!<Cr>", silentOpt)

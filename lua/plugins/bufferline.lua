@@ -5,7 +5,8 @@ return {
     config = function()
         vim.opt.termguicolors = true
 
-        require("bufferline").setup({
+        local bufferline = require("bufferline")
+        bufferline.setup({
             options = {
                 separator_style = "slope",
                 numbers = "ordinal",
@@ -35,9 +36,11 @@ return {
         keyset("n", "<leader>bcr", ":BufferLineCloseRight<CR>")
         keyset("n", "<leader>bco", ":BufferLineCloseOthers<CR>")
         keyset("n", "<leader>bcp", ":BufferLinePickClose<CR>")
+        keyset("n", "<C-h>", ":BufferLineCyclePrev<Cr>", silentOpt)
+        keyset("n", "<C-l>", ":BufferLineCycleNext<Cr>", silentOpt)
 
         for i = 1, 9 do
-            keyset("n", "<leader>" .. i, ":BufferLineGoToBuffer " .. i .. "<CR>")
+            keyset("n", "<leader>" .. i, function() bufferline.go_to(i, false) end)
         end
 
         local wk = require("which-key")

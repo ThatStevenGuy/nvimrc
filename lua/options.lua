@@ -21,13 +21,6 @@ o.scrolloff = 8 -- Keep 8 lines above and below the cursor
 o.sidescroll = 1 -- Scroll one line at a time
 o.sidescrolloff = 2 -- Keep some distance to the left and right of the cursor
 
-vim.api.nvim_create_autocmd("BufEnter", {
-    pattern = "*",
-    callback = function()
-        vim.o.scroll = 10 -- Affects <C-u> and <C-d> scrolling (per-buffer setting)
-    end
-})
-
 -- Configure tabbing
 o.shiftwidth = 4 -- Number of spaces to use for indenting
 o.tabstop = 4 -- Number of spaces a tab counts for

@@ -4,13 +4,9 @@ local silentOpt = { silent = true }
 -- Shift-tab outdent
 keyset("i", "<S-Tab>", "<C-d>")
 
--- Switch buffers & tabs more easily
+-- Switch tabs more easily
 keyset("n", "[t", ":tabprevious<Cr>", silentOpt)
 keyset("n", "]t", ":tabnext<Cr>", silentOpt)
-
--- Buffer close bindings (via vim-bbye)
-keyset("n", "<leader>qq", ":Bwipeout!<Cr>", silentOpt)
-keyset("n", "<leader>qa", ":bufdo :Bwipeout!<Cr>", silentOpt)
 
 -- Use HJKL to move around in insert mode
 keyset("i", "<C-h>", "<Left>")

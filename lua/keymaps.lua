@@ -28,5 +28,5 @@ keyset("n", "<C-z>", "<nop>")
 
 -- Language-specific keymaps
 vim.cmd([[
-    au FileType typescript nmap <leader>bd :!npm run build:dev<Cr>
+    au FileType typescript nmap <leader>rb :!npm run build:dev<Cr>
 ]])

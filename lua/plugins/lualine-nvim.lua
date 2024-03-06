@@ -36,14 +36,15 @@ return {
             lualine_y = {},
             lualine_z = {}
         },
-        tabline = {
-            lualine_a = {'branch'},
-            lualine_b = {'buffers'},
-            lualine_c = {},
-            lualine_x = {},
-            lualine_y = {},
-            lualine_z = {'tabs'}
-        },
+        -- Disabled in favor of bufferline
+        -- tabline = {
+        --     lualine_a = {'branch'},
+        --     lualine_b = {'buffers'},
+        --     lualine_c = {},
+        --     lualine_x = {},
+        --     lualine_y = {},
+        --     lualine_z = {'tabs'}
+        -- },
         winbar = {},
         inactive_winbar = {},
         extensions = {}

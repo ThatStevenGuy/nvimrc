@@ -19,10 +19,12 @@ keyset("n", "]t", ":tabnext<Cr>", silentOpt)
 keyset("t", "<Esc>", "<C-\\><C-n>") -- Exit out of insert mode in the terminal via escape
 keyset("n", "<C-z>", "<nop>") -- Disable C-z from job-controlling Neovim
 
--- Language-specific keymaps
-vim.cmd([[
-    au FileType typescript nmap <leader>rb :!npm run build:dev<Cr>
-]])
+wk.register({
+    ["<leader>r"] = {
+        name = "Run",
+        b = { ":3TermExec cmd='npm run build:dev' name='Build'<CR>", "Build" }
+    }
+})
 
 --------------------------------------------------------------------------------
 -- Buffers
@@ -74,6 +76,25 @@ wk.register({
 }, { mode = { "i", "s" } })
 
 --------------------------------------------------------------------------------
+-- Terminal
+--------------------------------------------------------------------------------
+
+wk.register({
+    name = "Terminal",
+    c = { ":TermExec cmd='clear'<CR>", "Clear" },
+    t = { ":ToggleTerm<CR>", "Toggle" },
+}, { prefix = "<leader>t" })
+
+for i = 1, 9 do
+    wk.register({
+        ["<leader>t" .. i] = {
+            ":" .. i .. "ToggleTerm size=10 direction=horizontal name='Terminal " .. i .."'<CR>",
+            "Terminal " .. i
+        }
+    })
+end
+
+--------------------------------------------------------------------------------
 -- Finding
 --------------------------------------------------------------------------------
 
@@ -86,6 +107,7 @@ wk.register({
     c = { telescope.commands, "Command" },
     s = { telescope.lsp_workspace_symbols, "Symbol" },
     o = { telescope.lsp_document_symbols, "Outline" },
+    t = { ":TermSelect<CR>", "Terminal" }
 }, { prefix = '<leader>f' })
 
 --------------------------------------------------------------------------------
@@ -102,17 +124,17 @@ wk.register({
 }, { prefix = "<leader>x" })
 
 --------------------------------------------------------------------------------
--- NvimTree
+-- File explorer
 --------------------------------------------------------------------------------
 
 wk.register({
-    name = "NvimTree",
+    name = "File explorer",
     o = { ":NvimTreeOpen<CR>", "Open" },
     t = { ":NvimTreeToggle<CR>", "Toggle" },
     c = { ":NvimTreeClose<CR>", "Close" },
     f = { ":NvimTreeFindFile<CR>", "Find file" },
     r = { ":NvimTreeRefresh<CR>", "Refresh" }
-}, { prefix = "<leader>t" })
+}, { prefix = "<leader>e" })
 
 
 --------------------------------------------------------------------------------
@@ -274,4 +296,3 @@ vim.api.nvim_create_autocmd("FileType", {
         keyset("n", "<space>ia", ":TSToolsAddMissingImports<CR>", opts)
     end
 })
-

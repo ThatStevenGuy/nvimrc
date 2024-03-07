@@ -33,12 +33,12 @@ wk.register({
     b = { ":BufferLinePick<CR>", "Pick" },
     c = {
         name = "Close",
-        c = { ":Bwipeout<CR>", "Current" }
-        f = { ":Bwipeout!<CR>", "Current (force)" }
-        l = { ":BufferLineCloseLeft<CR>", "Left" }
-        o = { ":BufferLineCloseOthers<CR>", "Others" }
-        p = { ":BufferLinePickClose<CR>", "Pick" }
-        r = { ":BufferLineCloseRight<CR>", "Right" }
+        c = { ":Bwipeout<CR>", "Current" },
+        f = { ":Bwipeout!<CR>", "Current (force)" },
+        l = { ":BufferLineCloseLeft<CR>", "Left" },
+        o = { ":BufferLineCloseOthers<CR>", "Others" },
+        p = { ":BufferLinePickClose<CR>", "Pick" },
+        r = { ":BufferLineCloseRight<CR>", "Right" },
     },
     h = { ":DiffviewFileHistory %<CR>", "History" },
     p = { ":BufferLineTogglePin<CR>", "Pin" },
@@ -59,6 +59,12 @@ end
 -- Autocompletion
 --------------------------------------------------------------------------------
 
+--[[
+We're using the default vim autocompletion bindings:
+- <C-n> and <C-p> to navigate the completion menu
+- <C-y> to confirm the completion
+- <C-e> to abort the completion
+]]
 wk.register({
     ["<C-b>"] = { cmp.mapping.scroll_docs(-4), "Scroll up" },
     ["<C-f>"] = { cmp.mapping.scroll_docs(4), "Scroll down" },

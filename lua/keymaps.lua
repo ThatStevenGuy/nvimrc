@@ -22,7 +22,7 @@ keyset("n", "<C-z>", "<nop>") -- Disable C-z from job-controlling Neovim
 wk.register({
     ["<leader>r"] = {
         name = "Run",
-        b = { ":3TermExec cmd='npm run build:dev' name='Build'<CR>", "Build" }
+        b = { ":3TermExec cmd='clear && npm run build:dev' name='Build'<CR>", "Build" }
     }
 })
 

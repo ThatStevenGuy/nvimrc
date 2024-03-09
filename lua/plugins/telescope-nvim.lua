@@ -16,8 +16,7 @@ return {
             },
             pickers = {
                 find_files = {
-                    hidden = true,
-                    -- path_display = filenameFirst,
+                    -- hidden = true,
                 },
                 lsp_references = {
                     path_display = { "tail" }, -- Show filenames only

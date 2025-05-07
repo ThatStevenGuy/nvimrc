@@ -19,42 +19,36 @@ keyset("n", "]t", ":tabnext<Cr>", silentOpt)
 keyset("t", "<Esc>", "<C-\\><C-n>") -- Exit out of insert mode in the terminal via escape
 keyset("n", "<C-z>", "<nop>") -- Disable C-z from job-controlling Neovim
 
-wk.register({
-    ["<leader>r"] = {
-        name = "Run",
-        b = { ":3TermExec cmd='clear && npm run build:dev' name='Build'<CR>", "Build" }
-    }
+wk.add({
+    { "<leader>r", group = "Run" },
+    { "<leader>rb", ":3TermExec cmd='clear && npm run build:dev' name='Build'<CR>", desc = "Build" },
 })
 
 --------------------------------------------------------------------------------
 -- Buffers
 --------------------------------------------------------------------------------
 
-wk.register({
-    name = "Buffer",
-    b = { ":BufferLinePick<CR>", "Pick" },
-    c = {
-        name = "Close",
-        c = { ":Bwipeout<CR>", "Current" },
-        f = { ":Bwipeout!<CR>", "Current (force)" },
-        l = { ":BufferLineCloseLeft<CR>", "Left" },
-        o = { ":BufferLineCloseOthers<CR>", "Others" },
-        p = { ":BufferLinePickClose<CR>", "Pick" },
-        r = { ":BufferLineCloseRight<CR>", "Right" },
-    },
-    h = { ":DiffviewFileHistory %<CR>", "History" },
-    p = { ":BufferLineTogglePin<CR>", "Pin" },
-}, { prefix = "<leader>b" })
+wk.add({
+    { "<leader>b", group = "Buffer" },
+    { "<leader>bb", ":BufferLinePick<CR>", desc = "Pick" },
+    { "<leader>bc", group = "Close" },
+    { "<leader>bcc", ":Bwipeout<CR>", desc = "Current" },
+    { "<leader>bcf", ":Bwipeout!<CR>", desc = "Current (force)" },
+    { "<leader>bcl", ":BufferLineCloseLeft<CR>", desc = "Left" },
+    { "<leader>bco", ":BufferLineCloseOthers<CR>", desc = "Others" },
+    { "<leader>bcp", ":BufferLinePickClose<CR>", desc = "Pick" },
+    { "<leader>bcr", ":BufferLineCloseRight<CR>", desc = "Right" },
+    { "<leader>bh", ":DiffviewFileHistory %<CR>", desc = "History" },
+    { "<leader>bp", ":BufferLineTogglePin<CR>", desc = "Pin" },
+})
 
-wk.register({
-    ["<C-h>"] = { ":BufferLineCyclePrev<CR>", "Previous" },
-    ["<C-l>"] = { ":BufferLineCycleNext<CR>", "Next" },
+wk.add({
+    { "<C-h>", ":BufferLineCyclePrev<CR>", desc = "Previous" },
+    { "<C-l>", ":BufferLineCycleNext<CR>", desc = "Next" },
 })
 
 for i = 1, 9 do
-    wk.register({
-        ["<leader>" .. i] = { function() bufferline.go_to(i, false) end, "Go to buffer " .. i }
-    })
+    wk.add({ "<leader>" .. i, function() bufferline.go_to(i, false) end, desc = "Go to buffer " .. i })
 end
 
 --------------------------------------------------------------------------------
@@ -67,30 +61,38 @@ We're using the default vim autocompletion bindings:
 - <C-y> to confirm the completion
 - <C-e> to abort the completion
 ]]
-wk.register({
-    ["<C-b>"] = { cmp.mapping.scroll_docs(-4), "Scroll up" },
-    ["<C-f>"] = { cmp.mapping.scroll_docs(4), "Scroll down" },
-    ["<C-Space>"] = { cmp.mapping.complete(), "Complete" },
-    ["<C-e>"] = { cmp.mapping.abort(), "Abort" },
-    ["<C-y>"] = { cmp.mapping.confirm({ select = true }), "Confirm" },
-}, { mode = { "i", "s" } })
+wk.add({
+    {
+      mode = { "i", "s" },
+      { "<C-b>", cmp.mapping.scroll_docs(-4), desc = "Scroll up" },
+      { "<C-f>", cmp.mapping.scroll_docs(4), desc = "Scroll down" },
+      { "<C-Space>", cmp.mapping.complete(), desc = "Complete" },
+      { "<C-e>", cmp.mapping.abort(), desc = "Abort" },
+      { "<C-y>", cmp.mapping.confirm({ select = true }), desc = "Confirm" }
+    }
+})
 
 --------------------------------------------------------------------------------
 -- Terminal
 --------------------------------------------------------------------------------
 
-wk.register({
-    name = "Terminal",
-    c = { ":TermExec cmd='clear'<CR>", "Clear" },
-    t = { ":ToggleTerm<CR>", "Toggle" },
-}, { prefix = "<leader>t" })
+-- wk.register({
+--     name = "Terminal",
+--     c = { ":TermExec cmd='clear'<CR>", "Clear" },
+--     t = { ":ToggleTerm<CR>", "Toggle" },
+-- }, { prefix = "<leader>t" })
+
+wk.add({
+    { "<leader>t", group = "Terminal" },
+    { "<leader>tc", ":TermExec cmd='clear'<CR>", desc = "Clear" },
+    { "<leader>tt", ":ToggleTerm<CR>", desc = "Toggle" },
+})
 
 for i = 1, 9 do
-    wk.register({
-        ["<leader>t" .. i] = {
-            ":" .. i .. "ToggleTerm size=10 direction=horizontal name='Terminal " .. i .."'<CR>",
-            "Terminal " .. i
-        }
+    wk.add({
+        "<leader>t" .. i,
+        ":" .. i .. "ToggleTerm size=10 direction=horizontal name='Terminal " .. i .."'<CR>",
+        desc = "Terminal " .. i
     })
 end
 
@@ -98,53 +100,52 @@ end
 -- Finding
 --------------------------------------------------------------------------------
 
-wk.register({
-    name = "Find",
-    f = { telescope.find_files, "File" },
-    g = { telescope.live_grep, "Grep"},
-    b = { telescope.buffers, "Buffer" },
-    h = { telescope.help_tags, "Help" },
-    c = { telescope.commands, "Command" },
-    s = { telescope.lsp_workspace_symbols, "Symbol" },
-    o = { telescope.lsp_document_symbols, "Outline" },
-    t = { ":TermSelect<CR>", "Terminal" }
-}, { prefix = '<leader>f' })
+wk.add({
+    { "<leader>f", group = "Find" },
+    { "<leader>fb", telescope.buffers, desc = "Buffer" },
+    { "<leader>fc", telescope.commands, desc = "Command" },
+    { "<leader>ff", telescope.find_files, desc = "File" },
+    { "<leader>fg", telescope.live_grep, desc = "Grep" },
+    { "<leader>fh", telescope.help_tags, desc = "Help" },
+    { "<leader>fo", telescope.lsp_document_symbols, desc = "Outline" },
+    { "<leader>fs", telescope.lsp_workspace_symbols, desc = "Symbol" },
+    { "<leader>ft", ":TermSelect<CR>", desc = "Terminal" },
+})
 
 --------------------------------------------------------------------------------
 -- Trouble
 --------------------------------------------------------------------------------
 
-wk.register({
-    name = "Trouble",
-    x = { function() trouble.toggle() end, "Toggle" },
-    w = { function() trouble.toggle("workspace_diagnostics") end, "Workspace diagnostics" },
-    d = { function() trouble.toggle("document_diagnostics") end, "Document diagnostics" },
-    q = { function() trouble.toggle("quickfix") end, "Quickfix" },
-    l = { function() trouble.toggle("loclist") end, "Loclist" },
-}, { prefix = "<leader>x" })
+wk.add({
+    { "<leader>x", group = "Trouble" },
+    { "<leader>xd", function() trouble.toggle("document_diagnostics") end, desc = "Document diagnostics" },
+    { "<leader>xl", function() trouble.toggle("loclist") end, desc = "Loclist" },
+    { "<leader>xq", function() trouble.toggle("quickfix") end, desc = "Quickfix" },
+    { "<leader>xw", function() trouble.toggle("workspace_diagnostics") end, desc = "Workspace diagnostics" },
+    { "<leader>xx", function() trouble.toggle() end, desc = "Toggle" },
+})
 
 --------------------------------------------------------------------------------
 -- File explorer
 --------------------------------------------------------------------------------
 
-wk.register({
-    name = "File explorer",
-    o = { ":NvimTreeOpen<CR>", "Open" },
-    t = { ":NvimTreeToggle<CR>", "Toggle" },
-    c = { ":NvimTreeClose<CR>", "Close" },
-    f = { ":NvimTreeFindFile<CR>", "Find file" },
-    r = { ":NvimTreeRefresh<CR>", "Refresh" }
-}, { prefix = "<leader>e" })
-
+wk.add({
+    { "<leader>e", group = "File explorer" },
+    { "<leader>ec", ":NvimTreeClose<CR>", desc = "Close" },
+    { "<leader>ef", ":NvimTreeFindFile<CR>", desc = "Find file" },
+    { "<leader>eo", ":NvimTreeOpen<CR>", desc = "Open" },
+    { "<leader>er", ":NvimTreeRefresh<CR>", desc = "Refresh" },
+    { "<leader>et", ":NvimTreeToggle<CR>", desc = "Toggle" },
+})
 
 --------------------------------------------------------------------------------
 -- Copilot
 --------------------------------------------------------------------------------
 
-wk.register({
-    name = "Copilot",
-    p = { ":Copilot panel<CR>", "Suggest" },
-}, { prefix = "<leader>c" })
+wk.add({
+    { "<leader>c", group = "Copilot" },
+    { "<leader>cp", ":Copilot panel<CR>", desc = "Suggest" },
+})
 
 -- wk.register({
 --     ["<C-h>"] = { "<Plug>(copilot-previous)", "Previous suggestion" },
@@ -155,71 +156,76 @@ wk.register({
 -- Git
 --------------------------------------------------------------------------------
 
-wk.register({
-    name = "Git",
-    b = { telescope.git_branches, "Branches" },
-    c = {
-        name = "Commits",
-        b = { telescope.git_bcommits, "Buffer" },
-        p = { telescope.git_commits, "Project" },
-    },
-    d = { ":DiffviewOpen<CR>", "Diff" },
-    s = { ":Git<CR>", "Status" },
-    S = { telescope.git_status, "Status (quick)" },
-}, { prefix = "<leader>g" })
+wk.add({
+    { "<leader>g", group = "Git" },
+    { "<leader>gb", telescope.git_branches, desc = "Branches" },
+    { "<leader>gc", group = "Commits" },
+    { "<leader>gcb", telescope.git_bcommits, desc = "Buffer" },
+    { "<leader>gcp", telescope.git_commits, desc = "Project" },
+    { "<leader>gd", ":DiffviewOpen<CR>", desc = "Diff" },
+    { "<leader>gs", ":Git<CR>", desc = "Status" },
+    { "<leader>gS", telescope.git_status, desc = "Status (quick)" }
+})
 
 -- Gitsigns
 gitsigns.setup({
     on_attach = function(bufnr)
         -- Normal mode
-        wk.register({
-            h = {
-                name = "Hunk",
-                b = { function() gitsigns.blame_line({ full = true }) end, "Blame line" },
-                d = { gitsigns.diffthis, "Diff" },
-                D = { function() gitsigns.diffthis('~') end, "Diff (last commit)" },
-                p = { gitsigns.preview_hunk, "Preview hunk" },
-                r = { gitsigns.reset_hunk, "Reset hunk" },
-                R = { gitsigns.reset_buffer, "Reset buffer" },
-                s = { gitsigns.stage_hunk, "Stage hunk" },
-                S = { gitsigns.stage_buffer, "Stage buffer" },
-                t = {
-                    name = "Toggle",
-                    b = { gitsigns.toggle_current_line_blame, "Toggle blame" },
-                    d = { gitsigns.toggle_deleted, "Deleted" },
-                },
-                u = { gitsigns.undo_stage_hunk, "Undo stage hunk" }
-            }
-        }, { prefix = "<leader>", buffer = bufnr})
+        wk.add({
+            { "<leader>h", buffer = bufnr, group = "Hunk" },
+            { "<leader>hb", function() gitsigns.blame_line({ full = true }) end, buffer = bufnr, desc = "Blame line" },
+            { "<leader>hd", gitsigns.diffthis, buffer = bufnr, desc = "Diff" },
+            { "<leader>hD", function() gitsigns.diffthis('~') end, buffer = bufnr, desc = "Diff (last commit)" },
+            { "<leader>hp", gitsigns.preview_hunk, buffer = bufnr, desc = "Preview hunk" },
+            { "<leader>hr", gitsigns.reset_hunk, buffer = bufnr, desc = "Reset hunk" },
+            { "<leader>hR", gitsigns.reset_buffer, buffer = bufnr, desc = "Reset buffer" },
+            { "<leader>hs", gitsigns.stage_hunk, buffer = bufnr, desc = "Stage hunk" },
+            { "<leader>hS", gitsigns.stage_buffer, buffer = bufnr, desc = "Stage buffer" },
+            { "<leader>ht", buffer = bufnr, group = "Toggle" },
+            { "<leader>htb", gitsigns.toggle_current_line_blame, buffer = bufnr, desc = "Toggle blame" },
+            { "<leader>htd", gitsigns.toggle_deleted, buffer = bufnr, desc = "Deleted" },
+            { "<leader>hu", gitsigns.undo_stage_hunk, buffer = bufnr, desc = "Undo stage hunk" },
+        })
 
-        wk.register({
-            ["[c"] = {
+        wk.add({
+            {
+                "[c",
                 function()
                     if vim.wo.diff then return '[c' end
                     vim.schedule(function() gitsigns.prev_hunk() end)
                     return '<Ignore>'
-                end, "Previous hunk", expr = true
+                end,
+                buffer = bufnr,
+                desc = "Previous hunk",
+                expr = true
             },
-            ["]c"] = {
+            {
+                "]c",
                 function()
                     if vim.wo.diff then return ']c' end
                     vim.schedule(function() gitsigns.next_hunk() end)
                     return '<Ignore>'
-                end, "Next hunk", expr = true
+                end,
+                buffer = bufnr,
+                desc = "Next hunk",
+                expr = true
             }
-        }, { buffer = bufnr })
+        })
 
         -- Visual mode
-        wk.register({
-            name = "Hunk",
-            r = { function() gitsigns.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, "Reset hunk" },
-            s = { function() gitsigns.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, "Stage hunk" },
-        }, { prefix = "<leader>h", buffer = bufnr, mode = "v" })
+        wk.add({
+            {
+                mode = { "v" },
+                { "<leader>h", buffer = bufnr, group = "Hunk" },
+                { "<leader>hr", function() gitsigns.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, buffer = bufnr, desc = "Reset hunk" },
+                { "<leader>hs", function() gitsigns.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, buffer = bufnr, desc = "Stage hunk" },
+            },
+        })
 
         -- Text object
-        wk.register({
-            ih = { ":<C-U>Gitsigns select_hunk<CR>", "Inner hunk" },
-        }, { mode = { "o", "x" }, buffer = bufnr })
+        wk.add({
+            { "ih", ":<C-U>Gitsigns select_hunk<CR>", buffer = bufnr, desc = "Inner hunk", mode = { "o", "x" } },
+        })
     end
 })
 
@@ -228,11 +234,11 @@ gitsigns.setup({
 --------------------------------------------------------------------------------
 
 -- Diagnostics
-wk.register({
-    name = "LSP",
-    e = { vim.diagnostic.open_float, "Show error" },
-    q = { vim.diagnostic.setloclist, "Set loclist" },
-}, { prefix = "<space>" })
+wk.add({
+    { "<space>", group = "LSP" },
+    { "<space>e", vim.diagnostic.open_float, desc = "Show error" },
+    { "<space>q", vim.diagnostic.setloclist, desc = "Set loclist" },
+})
 
 -- Use an autocommand to only map the following keys after the language server attaches to the current buffer
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -241,36 +247,36 @@ vim.api.nvim_create_autocmd('LspAttach', {
         local bufnr = ev.buf
 
         -- Miscellaneous
-        wk.register({
-            K = { vim.lsp.buf.hover, "Hover" },
-            ["<C-k>"] = { vim.lsp.buf.signature_help, "Signature help" },
-            ["<space>rn"] = { vim.lsp.buf.rename, "Rename" },
-            ["<space>f"] = { function() vim.lsp.buf.format { async = true } end, "Format" },
-            ["<space>a"] = { vim.lsp.buf.code_action, "Code action", mode = {"n", "v"} },
+        wk.add({
+            { "<C-k>", vim.lsp.buf.signature_help, desc = "Signature help" },
+            { "<space>f", function() vim.lsp.buf.format { async = true } end, desc = "Format" },
+            { "<space>rn", vim.lsp.buf.rename, desc = "Rename" },
+            { "K", vim.lsp.buf.hover, desc = "Hover" },
+            { "<space>a", vim.lsp.buf.code_action, desc = "Code action", mode = { "n", "v" } },
         })
 
         -- Type navigation
-        wk.register({
-            d = { telescope.lsp_definitions, "Definition" },
-            i = { telescope.lsp_implementations, "Implementations" },
-            r = { telescope.lsp_references, "References" },
-            R = { function() require("trouble").toggle("lsp_references") end, "References (trouble)" },
-            y = { telescope.lsp_type_definitions, "Type definition" },
-        }, { prefix = "g", buffer = bufnr })
+        wk.add({
+            { "gR", function() require("trouble").toggle("lsp_references") end, buffer = bufnr, desc = "References (trouble)" },
+            { "gd", telescope.lsp_definitions, buffer = bufnr, desc = "Definition" },
+            { "gi", telescope.lsp_implementations, buffer = bufnr, desc = "Implementations" },
+            { "gr", telescope.lsp_references, buffer = bufnr, desc = "References" },
+            { "gy", telescope.lsp_type_definitions, buffer = bufnr, desc = "Type definition" },
+        })
 
         -- Diagnostics
-        wk.register({
-            ["[d"] = { vim.diagnostic.goto_prev, "Previous" },
-            ["]d"] = { vim.diagnostic.goto_next, "Next" },
-        }, { buffer = bufnr })
+        wk.add({
+            { "[d", vim.diagnostic.goto_prev, buffer = bufnr, desc = "Previous" },
+            { "]d", vim.diagnostic.goto_next, buffer = bufnr, desc = "Next" },
+        })
 
         -- Workspace
-        wk.register({
-            name = "Workspace",
-            a = { vim.lsp.buf.add_workspace_folder, "Add folder" },
-            r = { vim.lsp.buf.remove_workspace_folder, "Remove folder" },
-            l = { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "List folders" }
-        }, { prefix = "<space>w", buffer = bufnr })
+        wk.add({
+            { "<space>w", buffer = bufnr, group = "Workspace" },
+            { "<space>wa", vim.lsp.buf.add_workspace_folder, buffer = bufnr, desc = "Add folder" },
+            { "<space>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, buffer = bufnr, desc = "List folders" },
+            { "<space>wr", vim.lsp.buf.remove_workspace_folder, buffer = bufnr, desc = "Remove folder" },
+        })
 
         -- Enable completion triggered by <c-x><c-o>
         vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
